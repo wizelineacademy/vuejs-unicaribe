@@ -18,8 +18,8 @@
           </div>
 
           <div class="content">
-            <p class="is-size-7">{{ description }}</p>
-            <small>{{ movieTime }}</small>
+            <p class="is-size-7">{{ description | maxlength }}</p>
+            <!-- <small>{{ movieTime }}</small> -->
           </div>
         </div>
       </div>
@@ -36,15 +36,45 @@
   export default {
     data() {
       return {
-        image: 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/jMBTJQiHAyGlZR05J2sq5coA6ew.jpg',
-        title: 'Deserunt amet sit eiusmod esse.',
-        description: 'Nulla exercitation exercitation laborum voluptate irure anim do officia minim anim id. Consequat sunt magna voluptate consectetur eu laborum do labore laboris. Duis proident eu aliquip sunt enim amet officia reprehenderit veniam. Dolore officia ea laborum eiusmod pariatur ea sit sunt.',
-        rank: 67,
-        movieTime: 'Aug 23th, 2018',
+      }
+    },
+
+    props: {
+      id: {
+        type: Number,
+        required: true,
+      },
+      image: {
+        type: String,
+        default: 'http://lorempixel.com/370/556',
+      },
+      title: {
+        type: String,
+        default: 'Movie title',
+      },
+      description: {
+        type: String,
+        default: 'Some description',
+      },
+      voteAverage: {
+        type: Number,
+        default: -1,
+      },
+    },
+
+    filters: {
+      maxlength: (text) => {
+        if (!text) return ''
+
+        return `${text.toString().slice(0, 200)} ...`
       }
     }
   }
 </script>
 
 <style scoped>
+.card {
+  min-width: 400px;
+  min-height: 343px;
+}
 </style>
