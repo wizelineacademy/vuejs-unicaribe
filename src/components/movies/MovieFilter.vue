@@ -21,7 +21,7 @@
           <hr class="dropdown-divider">
           <a class="dropdown-item" v-for="(genre, index) in genres"
             :key="index" href="#"
-            @click.prevent="applyFilter(genre)"
+            @click.prevent="applyFilter(genre.id)"
             >
             {{ genre.name }}
           </a>
@@ -35,12 +35,6 @@
 export default {
   data () {
     return {
-      genres: [
-        { name: 'Action', id: 1 },
-        { name: 'Horror', id: 2 },
-        { name: 'Comedy', id: 3 },
-      ],
-      selectedGenreName: null,
       dropdownFiltersOpen: false,
     }
   },
@@ -48,19 +42,27 @@ export default {
     toggleFilters() {
       this.dropdownFiltersOpen = !this.dropdownFiltersOpen
     },
-    applyFilter(item) {
-      this.selectedGenreName = item ? item.name : null
-      // TODO: apply filter for movies
+    applyFilter(newGenre) {
+      this.$store.dispatch('fetchByGenre', newGenre)
       this.toggleFilters()
     }
   },
   computed: {
+    genres() {
+      return this.$store.state.genres
+    },
+    selectedGenreName() {
+      return this.$store.getters.selectedGenreName
+    },
     filterText () {
       return this.selectedGenreName || 'Viewing all genres'
     },
     filterOpen () {
       return this.dropdownFiltersOpen
     }
+  },
+  mounted() {
+    this.$store.dispatch('fetchGenres')
   }
 }
 </script>
