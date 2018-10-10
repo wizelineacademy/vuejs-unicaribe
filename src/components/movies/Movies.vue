@@ -9,7 +9,7 @@
     <div class="container">
       <movie-filter/>
 
-      <div class="columns movie-container">
+      <div class="columns is-multiline movie-container">
         <div
           v-for="(movie, index) in movies"
           :key="index"
