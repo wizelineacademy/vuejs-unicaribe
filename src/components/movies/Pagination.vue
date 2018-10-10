@@ -34,8 +34,6 @@ export default {
   },
   data() {
     return {
-      currentPage: 2,
-      pages: 5,
     }
   },
 
@@ -60,11 +58,16 @@ export default {
       }
       return pageArray
     },
+    currentPage() {
+      return this.$store.state.currentPage
+    },
+    pages() {
+      return this.$store.state.pages
+    }
   },
   methods: {
-    // eslint-disable-next-line
     handleChangedPage(page) {
-      // TODO: change and retrieve page of movies
+      this.$store.dispatch('fetchPage', page)
       this.scrollToTop()
     },
     scrollToTop() {

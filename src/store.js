@@ -9,13 +9,15 @@ export default new Vuex.Store({
     hello: 'hello world',
     movies: [],
     genres: [],
-    selectedGenre: null
+    selectedGenre: null,
+    pages: 7,
+    currentPage: 1,
   },
 
   actions: {
-    fetchMovies(context) {
+    fetchMovies(context, page = 1) {
       MovieService.getMovies({
-        page: 1,
+        page,
         genre: context.state.selectedGenre,
       })
         .then(response => {
@@ -33,6 +35,11 @@ export default new Vuex.Store({
     fetchByGenre(context, genre) {
       context.commit('setSelectedGenre', genre)
       context.dispatch('fetchMovies')
+    },
+
+    fetchPage(context, page) {
+      context.commit('setCurrentPage', page)
+      context.dispatch('fetchMovies', page)
     }
   },
   
@@ -47,6 +54,10 @@ export default new Vuex.Store({
 
     setSelectedGenre(state, genre) {
       state.selectedGenre = genre
+    },
+
+    setCurrentPage(state, page) {
+      state.currentPage = page
     }
   },
 
