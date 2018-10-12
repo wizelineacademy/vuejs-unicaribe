@@ -27,7 +27,19 @@
 
     <footer class="card-footer">
       <a href="#" class="card-footer-item">More info</a>
-      <a href="#" class="card-footer-item">Add to ⭐️</a>
+      <a
+        href="#"
+        class="card-footer-item"
+        v-if="!saved"
+        @click.prevent="saveMovie(movieObject)"
+      >Add to backlog ⭐️</a>
+
+      <a
+        href="#"
+        class="card-footer-item"
+        v-if="saved"
+        @click.prevent="removeMovieFromBacklog(movieObject)"
+      >Remove from backlog 🚫</a>
     </footer>
   </div>
 </template>
@@ -67,6 +79,30 @@
         if (!text) return ''
 
         return `${text.toString().slice(0, 200)} ...`
+      }
+    },
+
+    computed: {
+      saved() {
+        return this.$store.getters.savedMoviesIds.indexOf(this.id) >= 0
+      },
+      movieObject() {
+        return {
+          'id': this.id,
+          'title': this.title,
+          'description': this.description,
+          'image': this.image,
+        }
+      }
+    },
+
+    methods: {
+      saveMovie() {
+        this.$store.commit('saveMovie', this.movieObject)
+      },
+
+      removeMovieFromBacklog(movieObject) {
+        this.$store.commit('removeSavedMovie', this.movieObject)
       }
     }
   }
