@@ -9,9 +9,11 @@ export default new Vuex.Store({
     hello: 'hello world',
     movies: [],
     genres: [],
+    savedMovies: [],
     selectedGenre: null,
     pages: 7,
     currentPage: 1,
+    currentSection: 'discover',
   },
 
   actions: {
@@ -58,6 +60,15 @@ export default new Vuex.Store({
 
     setCurrentPage(state, page) {
       state.currentPage = page
+    },
+    
+    saveMovie(state, movie) {
+      state.savedMovies.push(movie)
+    },
+
+    removeSavedMovie(state, movie) {
+      const movieIndex = this.getters.savedMoviesIds.indexOf(movie.id)
+      if (movieIndex >= 0) state.savedMovies.splice(movieIndex, 1)
     }
   },
 
@@ -78,6 +89,11 @@ export default new Vuex.Store({
       const genre = state.genres.filter(genre => genre.id === state.selectedGenre)
 
       return genre[0] ? genre[0].name : null
+    },
+
+    savedMoviesIds(state) {
+      if (!state.savedMovies) return []
+      return state.savedMovies.map(movie => movie.id)
     }
   }
 })
