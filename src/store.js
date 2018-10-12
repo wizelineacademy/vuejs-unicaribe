@@ -61,6 +61,10 @@ export default new Vuex.Store({
     setCurrentPage(state, page) {
       state.currentPage = page
     },
+
+    setSection(state, section) {
+      state.currentSection = section
+    },
     
     saveMovie(state, movie) {
       state.savedMovies.push(movie)
@@ -74,6 +78,8 @@ export default new Vuex.Store({
 
   getters: {
     movieCards(state) {
+      if (state.currentSection === 'backlog') return state.savedMovies
+
       const imageBasePath = 'http://image.tmdb.org/t/p/w370_and_h556_bestv2'
 
       return state.movies.map(movie => ({

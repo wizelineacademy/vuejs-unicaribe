@@ -13,15 +13,14 @@
 
 <script>
 export default {
-  data() {
-    return {
-      section: 'discover'
+  methods: {
+    changeSection(newSection) {
+      this.$store.commit('setSection', newSection)
     }
   },
-  methods: {
-    // eslint-disable-next-line
-    changeSection(newSection) {
-      // TODO: Change section
+  computed: {
+    section() {
+      return this.$store.state.currentSection
     }
   }
 }

@@ -1,13 +1,15 @@
 <template>
   <div>
     <div class="container">
-      <h1 class="title">Movies</h1>
+      <h1 class="title">Movies Backlog</h1>
     </div>
 
     <movie-nav/>
 
     <div class="container">
-      <movie-filter/>
+      <movie-filter
+        v-if="isDiscover"
+      />
 
       <div class="columns is-multiline movie-container">
         <div
@@ -18,7 +20,9 @@
         </div>
       </div>
 
-      <pagination/>
+      <pagination
+        v-if="isDiscover"
+      />
     </div>
   </div>
 </template>
@@ -39,6 +43,9 @@ export default {
   computed: {
     movies() {
       return this.$store.getters.movieCards
+    },
+    isDiscover() {
+      return this.$store.state.currentSection === 'discover'
     }
   },
   mounted() {
